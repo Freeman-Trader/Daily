@@ -1,16 +1,16 @@
+import sys
 from datetime import date
 from pathlib import Path
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 MODEL_PATH = Path("models/SmolLM2-360M-Instruct")
-PROMPT = "Give me a brief, creative idea for a new product or service. Return exactly one sentence."
 TOKENIZER = AutoTokenizer.from_pretrained(MODEL_PATH, local_files_only=True)
 MODEL = AutoModelForCausalLM.from_pretrained(MODEL_PATH, local_files_only=True)
 
-def generate_idea() -> str:
+def generate_idea(prompt: str) -> str:
 	inputs = TOKENIZER.apply_chat_template(
-		[{"role": "user", "content": PROMPT}],
+		[{"role": "user", "content": prompt}],
 		add_generation_prompt=True,
 		return_tensors="pt",
 		return_dict=True,
@@ -29,4 +29,5 @@ def generate_idea() -> str:
 	return TOKENIZER.decode(new_tokens, skip_special_tokens=True).strip()
 
 if __name__ == "__main__":
-	print(generate_idea())
+	if len(sys.argv) > 1:
+		print(generate_idea(sys.argv[1]))
