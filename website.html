@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="A fresh idea for every day.">
-	<title>Idea of the Day</title>
+	<meta name="description" content="A fresh new thing every day.">
+	<title>Daily Fun</title>
 	<style>
 		:root {
 			color-scheme: light;
@@ -71,7 +71,7 @@
 			background: var(--accent);
 		}
 
-		.idea {
+		.thing {
 			margin: 0;
 			max-width: 610px;
 			font-size: clamp(1.65rem, 4vw, 2.65rem);
@@ -93,30 +93,21 @@
 </head>
 <body>
 	<main>
-		<p class="eyebrow">Idea of the Day</p>
+		<p class="eyebrow">Daily</p>
 		<h1 id="date-heading">Today</h1>
 		<p class="date" id="date-label"></p>
 		<div class="rule" aria-hidden="true"></div>
-		<p class="idea" id="idea" aria-live="polite"></p>
-		<p class="note">A new idea arrives with each new day.</p>
+		<p class="thing" id="thing" aria-live="polite"></p>
+		<p class="note">A new thing arrives with each new day.</p>
 	</main>
 
 	<script>
-		const ideas = [
-			"A neighborhood library for tools, where people borrow drills, cameras, and camping gear instead of buying them.",
-			"A quiet morning app that turns the first ten minutes of your day into one small, achievable experiment.",
-			"A community fridge that shares not only food, but the recipes and stories behind every donated ingredient.",
-			"A service that pairs unfinished hobbies with local mentors who can help you complete the very first step.",
-			"A walking map that replaces landmarks with questions, inviting you to notice something new on a familiar route.",
-			"A subscription that sends one beautifully made object each month, along with the name of the person who made it.",
-			"A shared calendar for neighbors to trade small favors, from watering plants to carrying groceries upstairs."
-		];
 		const generatedDate = null;
-		const generatedIdea = null;
+		const generatedThing = null;
 
 		const today = new Date();
 		const dayNumber = Math.floor(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate()) / 86400000);
-		const idea = generatedIdea || ideas[((dayNumber % ideas.length) + ideas.length) % ideas.length];
+		const thing = generatedThing || "It broke :<";
 		const displayDate = generatedDate ? new Date(`${generatedDate}T00:00:00`) : today;
 		const formattedDate = new Intl.DateTimeFormat(undefined, {
 			weekday: "long",
@@ -125,13 +116,13 @@
 			year: "numeric"
 		}).format(displayDate);
 
-		document.title = `Idea of the Day | ${formattedDate}`;
+		document.title = `Daily | ${formattedDate}`;
 		document.getElementById("date-heading").textContent = new Intl.DateTimeFormat(undefined, {
 			month: "long",
 			day: "numeric"
 		}).format(displayDate);
 		document.getElementById("date-label").textContent = formattedDate;
-		document.getElementById("idea").textContent = idea;
+		document.getElementById("thing").textContent = thing;
 	</script>
 </body>
 </html>
