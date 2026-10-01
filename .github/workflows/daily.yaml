@@ -50,6 +50,24 @@ jobs:
           prompt: "Give me a brief, creative idea for a new product or service. Return exactly one sentence."
           endpoint: idea
 
+      - name: Daily zodiac
+        uses: ./.github/actions/generate
+        with:
+          prompt: "Give a zodic prediction."
+          endpoint: zodiac
+
+      - name: Daily tip
+        uses: ./.github/actions/generate
+        with:
+          prompt: "Give a personal tip to improve ones life"
+          endpoint: tip
+
+      - name: Daily fortune
+        uses: ./.github/actions/generate
+        with:
+          prompt: "Give a quote that you would expect to find in a fortune cookie"
+          endpoint: fortune
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
