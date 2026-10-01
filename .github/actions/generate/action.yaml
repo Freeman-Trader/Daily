@@ -1,0 +1,61 @@
+name: Generate
+description: Generate and publish content
+
+inputs:
+  prompt:
+    description: Prompt to send to the generator
+    required: true
+
+  endpoint:
+    description: Output endpoint
+    required: true
+
+runs:
+  using: composite
+
+  steps:
+    - name: Generate today's content
+      shell: bash
+      run: |
+        python generator.py "${{ inputs.prompt }}" > /tmp/thing.txt
+
+    - name: Print output
+      shell: bash
+      run: cat /tmp/thing.txt
+
+    - name: Update website
+      shell: bash
+      run: |
+        python - <<'PY'
+        import json
+        import re
+        from datetime import date
+        from pathlib import Path
+
+        page = Path("website.html")
+        html = page.read_text()
+
+        generated_date = date.today().isoformat()
+        generated_thing = Path("/tmp/thing.txt").read_text().strip()
+
+        html = re.sub(
+            r"const generatedDate = .*?;",
+            f"const generatedDate = {json.dumps(generated_date)};",
+            html,
+        )
+
+        html = re.sub(
+            r"const generatedThing = .*?;",
+            f"const generatedThing = {json.dumps(generated_thing)};",
+            html,
+        )
+
+        page.write_text(html)
+
+        PY
+
+    - name: Prepare Pages artifact
+      shell: bash
+      run: |
+        mkdir -p _site
+        cp website.html "_site/${{ inputs.endpoint }}.html"
