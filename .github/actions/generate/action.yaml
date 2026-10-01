@@ -40,13 +40,13 @@ runs:
 
         html = re.sub(
             r"const generatedDate = .*?;",
-            f"const generatedDate = {json.dumps(generated_date)};",
+            lambda m: f"const generatedDate = {json.dumps(generated_date)};",
             html,
         )
-
+        
         html = re.sub(
             r"const generatedThing = .*?;",
-            f"const generatedThing = {json.dumps(generated_thing)};",
+            lambda m: f"const generatedThing = {json.dumps(generated_thing)};",
             html,
         )
 
